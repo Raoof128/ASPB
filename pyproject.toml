@@ -10,11 +10,10 @@ readme = "README.md"
 authors = [
     { name = "Raouf", email = "raouf@example.com" }
 ]
-license = { file = "LICENSE" }
+license = { text = "MIT" }
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: System Administrators",
-    "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -45,6 +44,10 @@ dev = [
 
 [project.scripts]
 sp-secret-bot = "sp_secret_bot.main:main"
+
+[tool.setuptools.packages.find]
+include = ["sp_secret_bot*"]
+exclude = ["sample_output*", "tests*"]
 
 [tool.black]
 line-length = 100
