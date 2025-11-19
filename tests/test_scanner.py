@@ -1,7 +1,7 @@
 import unittest
 from datetime import datetime, timedelta, timezone
 
-from sp_secret_bot.scanner import SecretRisk, SecretScanner
+from sp_secret_bot.scanner import SecretScanner
 
 
 class TestSecretScanner(unittest.TestCase):

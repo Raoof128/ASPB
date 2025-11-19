@@ -1,7 +1,7 @@
 import argparse
 import logging
 import sys
-from typing import List, Optional
+from typing import List
 
 from dotenv import load_dotenv
 
