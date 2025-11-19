@@ -17,7 +17,7 @@ class ReportGenerator:
     Generates reports in various formats (Console, CSV, JSON, Markdown).
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.logger = logging.getLogger("SPSecretBot.Reporter")
 
     def _to_dict_list(self, risks: List[SecretRisk]) -> List[dict]:
@@ -34,7 +34,7 @@ class ReportGenerator:
             for r in risks
         ]
 
-    def print_console(self, risks: List[SecretRisk], critical_only: bool = False):
+    def print_console(self, risks: List[SecretRisk], critical_only: bool = False) -> None:
         """Prints a formatted table to the console."""
         filtered_risks = (
             [r for r in risks if r.severity in ["CRITICAL", "EXPIRED"]] if critical_only else risks
@@ -68,19 +68,19 @@ class ReportGenerator:
         headers = ["Service Principal", "App ID", "Type", "Days Left", "Severity"]
         print("\n" + tabulate(table_data, headers=headers, tablefmt="simple_grid"))
 
-    def export_csv(self, risks: List[SecretRisk], filename: str):
+    def export_csv(self, risks: List[SecretRisk], filename: str) -> None:
         data = self._to_dict_list(risks)
         df = pd.DataFrame(data)
         df.to_csv(filename, index=False)
         self.logger.info(f"CSV report saved to {filename}")
 
-    def export_json(self, risks: List[SecretRisk], filename: str):
+    def export_json(self, risks: List[SecretRisk], filename: str) -> None:
         data = self._to_dict_list(risks)
         with open(filename, "w") as f:
             json.dump(data, f, indent=4)
         self.logger.info(f"JSON report saved to {filename}")
 
-    def export_markdown(self, risks: List[SecretRisk], filename: str):
+    def export_markdown(self, risks: List[SecretRisk], filename: str) -> None:
         data = self._to_dict_list(risks)
         df = pd.DataFrame(data)
         md = df.to_markdown(index=False)

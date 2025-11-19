@@ -23,7 +23,7 @@ class SecretScanner:
     Scans service principals for expiring secrets.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.logger = logging.getLogger("SPSecretBot.Scanner")
 
     def determine_severity(self, days: int) -> str:
@@ -41,7 +41,7 @@ class SecretScanner:
         Analyzes a list of service principals and returns a list of risks.
         """
         self.logger.info("Analyzing secrets for expiration risks...")
-        risks = []
+        risks: List[SecretRisk] = []
 
         for sp in service_principals:
             sp_name = sp.get("displayName", "Unknown")
@@ -70,9 +70,9 @@ class SecretScanner:
         cred: Dict[str, Any],
         c_type: str,
         risks: List[SecretRisk],
-    ):
+    ) -> None:
         end_date_str = cred.get("endDateTime")
-        key_id = cred.get("keyId")
+        key_id = str(cred.get("keyId", ""))
 
         if not end_date_str:
             return
