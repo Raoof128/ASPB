@@ -1,0 +1,29 @@
+[
+    {
+        "Service Principal": "Legacy Billing App",
+        "App ID": "f1e2d3c4-b5a6-0987-4321-fedcba098765",
+        "Secret Type": "Password",
+        "Key ID": "key-uuid-1",
+        "Expiry Date": "2023-10-01T00:00:00+00:00",
+        "Days Remaining": -45,
+        "Severity": "EXPIRED"
+    },
+    {
+        "Service Principal": "CI/CD Pipeline Runner",
+        "App ID": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "Secret Type": "Password",
+        "Key ID": "key-uuid-2",
+        "Expiry Date": "2023-11-25T00:00:00+00:00",
+        "Days Remaining": 5,
+        "Severity": "CRITICAL"
+    },
+    {
+        "Service Principal": "Backup Service",
+        "App ID": "98765432-10ab-cdef-1234-567890abcdef",
+        "Secret Type": "Key",
+        "Key ID": "key-uuid-3",
+        "Expiry Date": "2024-01-15T00:00:00+00:00",
+        "Days Remaining": 45,
+        "Severity": "WARNING"
+    }
+]

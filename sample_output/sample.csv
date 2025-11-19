@@ -1,0 +1,4 @@
+Service Principal,App ID,Secret Type,Key ID,Expiry Date,Days Remaining,Severity
+Legacy Billing App,f1e2d3c4-b5a6-0987-4321-fedcba098765,Password,key-uuid-1,2023-10-01T00:00:00+00:00,-45,EXPIRED
+CI/CD Pipeline Runner,a1b2c3d4-e5f6-7890-1234-567890abcdef,Password,key-uuid-2,2023-11-25T00:00:00+00:00,5,CRITICAL
+Backup Service,98765432-10ab-cdef-1234-567890abcdef,Key,key-uuid-3,2024-01-15T00:00:00+00:00,45,WARNING
