@@ -1,13 +1,16 @@
-import unittest
-import os
 import json
-import pandas as pd
+import os
+import unittest
 from datetime import datetime, timezone
+
+import pandas as pd
+
 from sp_secret_bot.report import ReportGenerator
 from sp_secret_bot.scanner import SecretRisk
 
+
 class TestReportGenerator(unittest.TestCase):
-    
+
     def setUp(self):
         self.reporter = ReportGenerator()
         self.sample_risks = [
@@ -19,7 +22,7 @@ class TestReportGenerator(unittest.TestCase):
                 secret_type="Password",
                 expiry_date=datetime(2025, 1, 1, tzinfo=timezone.utc),
                 days_remaining=30,
-                severity="CRITICAL"
+                severity="CRITICAL",
             )
         ]
         self.test_file_csv = "test_report.csv"
@@ -42,7 +45,7 @@ class TestReportGenerator(unittest.TestCase):
     def test_export_json(self):
         self.reporter.export_json(self.sample_risks, self.test_file_json)
         self.assertTrue(os.path.exists(self.test_file_json))
-        with open(self.test_file_json, 'r') as f:
+        with open(self.test_file_json, "r") as f:
             data = json.load(f)
             self.assertEqual(len(data), 1)
             self.assertEqual(data[0]["Severity"], "CRITICAL")
@@ -50,10 +53,11 @@ class TestReportGenerator(unittest.TestCase):
     def test_export_markdown(self):
         self.reporter.export_markdown(self.sample_risks, self.test_file_md)
         self.assertTrue(os.path.exists(self.test_file_md))
-        with open(self.test_file_md, 'r') as f:
+        with open(self.test_file_md, "r") as f:
             content = f.read()
             self.assertIn("Test SP", content)
             self.assertIn("# Azure Service Principal Secret Expiry Report", content)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

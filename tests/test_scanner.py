@@ -1,9 +1,11 @@
 import unittest
 from datetime import datetime, timedelta, timezone
-from sp_secret_bot.scanner import SecretScanner, SecretRisk
+
+from sp_secret_bot.scanner import SecretRisk, SecretScanner
+
 
 class TestSecretScanner(unittest.TestCase):
-    
+
     def setUp(self):
         self.scanner = SecretScanner()
 
@@ -35,43 +37,38 @@ class TestSecretScanner(unittest.TestCase):
                 "id": "sp1",
                 "appId": "app1",
                 "displayName": "Expired SP",
-                "passwordCredentials": [
-                    {"keyId": "k1", "endDateTime": expired_date}
-                ]
+                "passwordCredentials": [{"keyId": "k1", "endDateTime": expired_date}],
             },
             {
                 "id": "sp2",
                 "appId": "app2",
                 "displayName": "Critical SP",
-                "keyCredentials": [
-                    {"keyId": "k2", "endDateTime": critical_date}
-                ]
+                "keyCredentials": [{"keyId": "k2", "endDateTime": critical_date}],
             },
             {
                 "id": "sp3",
                 "appId": "app3",
                 "displayName": "Healthy SP",
-                "passwordCredentials": [
-                    {"keyId": "k3", "endDateTime": healthy_date}
-                ]
-            }
+                "passwordCredentials": [{"keyId": "k3", "endDateTime": healthy_date}],
+            },
         ]
 
         risks = self.scanner.scan_service_principals(mock_sps)
-        
+
         self.assertEqual(len(risks), 3)
-        
+
         # Check Expired
         self.assertEqual(risks[0].sp_name, "Expired SP")
         self.assertEqual(risks[0].severity, "EXPIRED")
-        
+
         # Check Critical
         self.assertEqual(risks[1].sp_name, "Critical SP")
         self.assertEqual(risks[1].severity, "CRITICAL")
-        
+
         # Check Healthy
         self.assertEqual(risks[2].sp_name, "Healthy SP")
         self.assertEqual(risks[2].severity, "HEALTHY")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

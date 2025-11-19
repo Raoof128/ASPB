@@ -1,8 +1,10 @@
 import logging
 from dataclasses import dataclass
 from datetime import datetime
-from typing import List, Dict, Any
+from typing import Any, Dict, List
+
 from .utils import calculate_days_remaining, parse_iso_date
+
 
 @dataclass
 class SecretRisk:
@@ -15,11 +17,12 @@ class SecretRisk:
     days_remaining: int
     severity: str
 
+
 class SecretScanner:
     """
     Scans service principals for expiring secrets.
     """
-    
+
     def __init__(self):
         self.logger = logging.getLogger("SPSecretBot.Scanner")
 
@@ -44,7 +47,7 @@ class SecretScanner:
             sp_name = sp.get("displayName", "Unknown")
             app_id = sp.get("appId", "Unknown")
             sp_id = sp.get("id", "Unknown")
-            
+
             # Check Password Credentials (Client Secrets)
             for cred in sp.get("passwordCredentials", []):
                 self._process_credential(sp_name, app_id, sp_id, cred, "Password", risks)
@@ -55,14 +58,22 @@ class SecretScanner:
 
         # Sort by days remaining (ascending)
         risks.sort(key=lambda x: x.days_remaining)
-        
+
         self.logger.info(f"Analysis complete. Found {len(risks)} credentials.")
         return risks
 
-    def _process_credential(self, sp_name: str, app_id: str, sp_id: str, cred: Dict[str, Any], c_type: str, risks: List[SecretRisk]):
+    def _process_credential(
+        self,
+        sp_name: str,
+        app_id: str,
+        sp_id: str,
+        cred: Dict[str, Any],
+        c_type: str,
+        risks: List[SecretRisk],
+    ):
         end_date_str = cred.get("endDateTime")
         key_id = cred.get("keyId")
-        
+
         if not end_date_str:
             return
 
@@ -73,10 +84,10 @@ class SecretScanner:
         days = calculate_days_remaining(expiry_date)
         severity = self.determine_severity(days)
 
-        # We generally only care about non-healthy ones for the main report, 
-        # but the prompt implies listing all or filtering. 
+        # We generally only care about non-healthy ones for the main report,
+        # but the prompt implies listing all or filtering.
         # Let's collect all and let the reporter filter.
-        
+
         risk = SecretRisk(
             sp_name=sp_name,
             app_id=app_id,
@@ -85,6 +96,6 @@ class SecretScanner:
             secret_type=c_type,
             expiry_date=expiry_date,
             days_remaining=days,
-            severity=severity
+            severity=severity,
         )
         risks.append(risk)
